@@ -19,4 +19,16 @@ const postSchema = new Schema({
   ],
 });
 
+postSchema.statics.checkWriter = async function (params) {
+  const { postId, writerId } = params;
+  try {
+    const ownPost = await this.findOne({ _id: postId }); //this는 schema 혹은 model
+    const ownId = ownPost.writer;
+    if (ownId.toString() !== writerId.toString()) return -1;
+    else return 1;
+  } catch (error) {
+    return -2;
+  }
+};
+
 module.exports = mongoose.model("post", postSchema);
