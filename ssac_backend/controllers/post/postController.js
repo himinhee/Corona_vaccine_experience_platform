@@ -170,19 +170,32 @@ const postController = {
     const postId = req.params.id;
     const commentId = req.params.commentid;
 
-    try {
-      const updated = await post.findByIdAndUpdate(
-        postId,
-        { $pull: { comments: { _id: commentId } } },
-        { new: true }
-      );
-      res.status(200).json({
-        message: "댓글 삭제 완료",
-      });
-    } catch (error) {
-      res.status(500).json({
-        message: "DB 서버 에러",
-      });
+    //삭제요청자=댓글작성자 확인
+    const isSameWriter = await post.checkCommentWriter({
+      postId: postId,
+      commentId: commentId,
+      writerId: userInfo._id,
+    });
+
+    if (isSameWriter === -1) {
+      return res.status(409).json({ message: "접근 권한이 없습니다." });
+    } else if (isSameWriter === -2) {
+      return res.status(500).json({ message: "DB 서버 에러" });
+    } else {
+      try {
+        const updated = await post.findByIdAndUpdate(
+          postId,
+          { $pull: { comments: { _id: commentId } } },
+          { new: true }
+        );
+        res.status(200).json({
+          message: "댓글 삭제 완료",
+        });
+      } catch (error) {
+        res.status(500).json({
+          message: "DB 서버 에러",
+        });
+      }
     }
   },
 };

@@ -31,4 +31,19 @@ postSchema.statics.checkWriter = async function (params) {
   }
 };
 
+postSchema.statics.checkCommentWriter = async function (params) {
+  const { postId, commentId, writerId } = params;
+  try {
+    const ownPost = await this.findOne({ _id: postId });
+    const ownCommentIndex = ownPost.comments.findIndex(
+      (i) => i._id == commentId
+    );
+    const ownId = ownPost.comments[ownCommentIndex].commentWriter;
+    if (ownId.toString() !== writerId.toString()) return -1;
+    else return 1;
+  } catch (error) {
+    return -2;
+  }
+};
+
 module.exports = mongoose.model("post", postSchema);
