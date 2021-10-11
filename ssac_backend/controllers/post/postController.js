@@ -3,7 +3,8 @@ const post = require("../../models/post");
 const postController = {
   readAll: async function (req, res) {
     try {
-      // writer의 oid 정보와 연결된 collection인 user로부터 원하는 column인 name과 userId 정보를 받아옴
+      // writer의 oid 정보와 연결된 collection인 user로부터 원하는 column인 nickName 정보를 받아옴
+      //populate 대상은 front 구현시 필요 정보 정의 후 확정
       const result = await post.find().populate("writer", "nickName");
       if (!result) {
         return res.status(400).json({
@@ -25,11 +26,18 @@ const postController = {
   readExactPost: async function (req, res) {
     const { id } = req.params;
     try {
+      //populate 대상은 front 구현시 필요 정보 정의 후 확정
       const result = await post.findById(id).populate("writer", "nickName");
-      res.status(200).json({
-        message: "조회 성공",
-        data: result,
-      });
+      if (result) {
+        return res.status(200).json({
+          message: "조회 성공",
+          data: result,
+        });
+      } else {
+        return res.status(400).json({
+          message: "해당 id의 게시글이 존재하지 않습니다",
+        });
+      }
     } catch (error) {
       res.status(500).json({
         message: "조회 실패",
@@ -53,7 +61,6 @@ const postController = {
     boardModel
       .save()
       .then((savedPost) => {
-        console.log(savedPost);
         res.status(200).json({
           message: "게시물 생성 성공",
         });
@@ -131,6 +138,51 @@ const postController = {
           error: error,
         });
       }
+    }
+  },
+  createComment: async function (req, res) {
+    const userInfo = req.userInfo;
+    const { content } = req.body;
+    const { id } = req.params;
+
+    const newComment = {
+      commentWriter: userInfo._id,
+      commentContent: content,
+      commentDate: new Date(),
+    };
+    try {
+      const updated = await post.findByIdAndUpdate(
+        id,
+        { $push: { comments: newComment } },
+        { new: true }
+      );
+      res.status(200).json({
+        message: "댓글 생성 성공",
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "DB 서버 에러",
+      });
+    }
+  },
+  deleteComment: async function (req, res) {
+    const userInfo = req.userInfo;
+    const postId = req.params.id;
+    const commentId = req.params.commentid;
+
+    try {
+      const updated = await post.findByIdAndUpdate(
+        postId,
+        { $pull: { comments: { _id: commentId } } },
+        { new: true }
+      );
+      res.status(200).json({
+        message: "댓글 삭제 완료",
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: "DB 서버 에러",
+      });
     }
   },
 };
