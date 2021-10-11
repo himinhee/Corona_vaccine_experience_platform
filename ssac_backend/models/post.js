@@ -40,7 +40,7 @@ postSchema.statics.checkCommentWriter = async function (params) {
     );
     const ownId = ownPost.comments[ownCommentIndex].commentWriter;
     if (ownId.toString() !== writerId.toString()) return -1;
-    else return 1;
+    else return ownCommentIndex;
   } catch (error) {
     return -2;
   }

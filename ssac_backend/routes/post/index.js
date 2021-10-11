@@ -19,5 +19,10 @@ router.delete(
   authModule.loggedIn,
   postController.deleteComment
 );
+router.put(
+  "/:id/comments/:commentid",
+  authModule.loggedIn,
+  postController.updateComment
+);
 
 module.exports = router;

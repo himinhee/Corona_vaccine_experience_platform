@@ -170,7 +170,7 @@ const postController = {
     const postId = req.params.id;
     const commentId = req.params.commentid;
 
-    //삭제요청자=댓글작성자 확인
+    //삭제요청자=댓글작성자 확인 - 해당 comment의 index 반환
     const isSameWriter = await post.checkCommentWriter({
       postId: postId,
       commentId: commentId,
@@ -190,6 +190,45 @@ const postController = {
         );
         res.status(200).json({
           message: "댓글 삭제 완료",
+        });
+      } catch (error) {
+        res.status(500).json({
+          message: "DB 서버 에러",
+        });
+      }
+    }
+  },
+  updateComment: async function (req, res) {
+    const userInfo = req.userInfo;
+    const postId = req.params.id;
+    const commentId = req.params.commentid;
+    const { content } = req.body;
+
+    //삭제요청자=댓글작성자 확인 - 해당 comment의 index 반환
+    const isSameWriter = await post.checkCommentWriter({
+      postId: postId,
+      commentId: commentId,
+      writerId: userInfo._id,
+    });
+
+    if (isSameWriter === -1) {
+      return res.status(409).json({ message: "접근 권한이 없습니다." });
+    } else if (isSameWriter === -2) {
+      return res.status(500).json({ message: "DB 서버 에러" });
+    } else {
+      try {
+        const updated = await post.findOneAndUpdate(
+          { _id: postId, "comments._id": commentId },
+          {
+            $set: {
+              "comments.$.commentContent": content,
+              "comments.$.commentDate": new Date(),
+            },
+          },
+          { new: true }
+        );
+        res.status(200).json({
+          message: "댓글 수정 완료",
         });
       } catch (error) {
         res.status(500).json({
