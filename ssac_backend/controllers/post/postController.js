@@ -45,6 +45,30 @@ const postController = {
       });
     }
   },
+  readRelated: async function (req, res) {
+    const { writerId } = req.params;
+    try {
+      //populate 대상은 front 구현시 필요 정보 정의 후 확정
+      const result = await post
+        .find({ writer: writerId })
+        .populate("writer", "nickName");
+      if (result) {
+        return res.status(200).json({
+          message: "조회 성공",
+          data: result,
+        });
+      } else {
+        return res.status(400).json({
+          message: "해당 id의 게시글이 존재하지 않습니다",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "조회 실패",
+        error: error,
+      });
+    }
+  },
   createPost: function (req, res) {
     const userInfo = req.userInfo;
     const { title, content, tags, category } = req.body;

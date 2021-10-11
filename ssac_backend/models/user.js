@@ -18,6 +18,8 @@ const userSchema = new Schema({
   inoDate1: { type: Date, default: null },
   inoDate2: { type: Date, default: null },
   profileImage: { type: String, default: null }, //S3 img file url
+  signupDate: { type: Date, default: new Date() },
+  updateDate: { type: Date, default: null },
 
   //추가정보 5가지를 모두 입력 시 verified=true, 그 외에는 false
   verified: { type: Boolean, default: false },
