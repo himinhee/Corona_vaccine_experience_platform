@@ -15,7 +15,7 @@ const postSchema = new Schema({
       commentWriter: { type: mongoose.Schema.Types.ObjectId, ref: "user" }, // user table 연결
       commentContent: { type: String, required: true },
       commmetDate: { type: Date, required: true, default: new Date() },
-      isEdited: {type: Boolean, default: false};
+      isEdited: { type: Boolean, default: false },
     },
   ],
 });
