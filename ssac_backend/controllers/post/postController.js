@@ -247,6 +247,7 @@ const postController = {
             $set: {
               "comments.$.commentContent": content,
               "comments.$.commentDate": new Date(),
+              "comments.$.isEdited": true,
             },
           },
           { new: true }

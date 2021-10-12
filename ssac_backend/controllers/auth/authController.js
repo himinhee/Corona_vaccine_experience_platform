@@ -103,8 +103,8 @@ const authController = {
       try {
         //프론트에서 개인정보 수정시, userInfo를 read하여 모든 field의 정보를 한번에 보내준다고 가정
         //프론트의 로직에 따라 추후 수정 필요
+        //email은 수정 불가
         const {
-          email,
           nickName,
           password,
           type,

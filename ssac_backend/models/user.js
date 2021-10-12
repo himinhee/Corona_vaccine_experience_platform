@@ -14,7 +14,7 @@ const userSchema = new Schema({
     default: null,
   },
   age: { type: Number, default: null },
-  gender: { type: Number, enum: [0, 1, 2], default: 1 }, //0 : 여자, 1 : 남자, 2 : 기타
+  gender: { type: Number, enum: [0, 1, 2, null], default: null }, //0 : 여자, 1 : 남자, 2 : 기타
   inoDate1: { type: Date, default: null },
   inoDate2: { type: Date, default: null },
   profileImage: { type: String, default: null }, //S3 img file url
