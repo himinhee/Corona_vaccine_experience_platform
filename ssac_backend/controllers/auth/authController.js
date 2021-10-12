@@ -11,8 +11,18 @@ const authController = {
       if (!checkEmail && !checkNickName) {
         const userModel = new user({ email, nickName, password });
         await userModel.save();
+
+        //accessTocken 생성
+        const payload = {
+          email: userModel.email,
+          verified: userModel.verified,
+        };
+        const token = jwtModule.create(payload);
+        console.log(token);
+
         return res.status(200).json({
           message: "신규 가입 성공",
+          accessToken: token,
         });
       } else if (checkEmail) {
         return res.status(409).json({

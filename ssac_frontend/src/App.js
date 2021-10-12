@@ -12,6 +12,11 @@ import AuthProvider from "./context/providers/AuthProvider";
 import { useContext } from "react";
 import AuthContext from "./context/AuthContext";
 import AddProfilePage from "./pages/AddProfilePage";
+import {
+  ToastsContainer,
+  ToastsStore,
+  ToastsContainerPosition,
+} from "react-toasts";
 
 function App() {
   // const dispatch = useDispatch();
@@ -21,6 +26,7 @@ function App() {
   const { authInfo, setAuthInfo } = useContext(AuthContext);
 
   useEffect(() => {
+    ToastsStore.success("토스트먹고싶다");
     const token = localStorage.getItem("accessToken")
       ? localStorage.getItem("accessToken")
       : null;
@@ -30,7 +36,6 @@ function App() {
         client.defaults.headers.common["Authorization"] = `${token}`;
         const response = await client.get("/api/auth/profile");
         setAuthInfo({ isLoggedIn: true, userInfo: response.data.data });
-        console.log(response);
         try {
         } catch (error) {
           console.log("ee");
@@ -52,6 +57,10 @@ function App() {
       {/* <Route component={RegisterPage} path="/register" /> */}
       {/* <Route component={WritePage} path="/write" /> */}
       {/* <Route component={PostPage} path="/@:username/:postId" /> */}
+      <ToastsContainer
+        position={ToastsContainerPosition.BOTTOM_CENTER}
+        store={ToastsStore}
+      />
     </>
   );
 }
