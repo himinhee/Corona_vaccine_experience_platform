@@ -3,6 +3,11 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import palette from "../../libs/styles/palette";
 import ButtonComponent from "../common/ButtonComponent";
+import {
+  ToastsContainer,
+  ToastsStore,
+  ToastsContainerPosition,
+} from "react-toasts";
 
 const AuthFormBlock = styled.div`
   h3 {
@@ -62,48 +67,54 @@ const textMap = {
 const AuthForm = ({ type, form, onChangeInput, onClickSubmit, error }) => {
   const text = textMap[type];
   return (
-    <AuthFormBlock>
-      <h3>{text}</h3>
-      <form onSubmit={onClickSubmit}>
-        <StyledInput
-          autoComplete="email"
-          name="email"
-          placeholder="이메일"
-          onChange={onChangeInput}
-          value={form.email}
-        />
-        {type === "register" && (
+    <>
+      <AuthFormBlock>
+        <h3>{text}</h3>
+        <form onSubmit={onClickSubmit}>
           <StyledInput
-            autoComplete="nickName"
-            name="nickName"
-            placeholder="닉네임"
-            value={form.nickName}
+            autoComplete="email"
+            name="email"
+            placeholder="이메일"
             onChange={onChangeInput}
+            value={form.email}
           />
-        )}
-        <StyledInput
-          name="password"
-          placeholder="비밀번호"
-          type="password"
-          value={form.password}
-          onChange={onChangeInput}
-        />
-        {type === "register" && (
+          {type === "register" && (
+            <StyledInput
+              autoComplete="nickName"
+              name="nickName"
+              placeholder="닉네임"
+              value={form.nickName}
+              onChange={onChangeInput}
+            />
+          )}
           <StyledInput
-            autoComplete="new-password"
-            name="passwordConfirm"
-            placeholder="비밀번호 확인"
+            name="password"
+            placeholder="비밀번호"
             type="password"
-            value={form.passwordConfirm}
+            value={form.password}
             onChange={onChangeInput}
           />
-        )}
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        <ButtonWithMarginTop cyan fullWidth>
-          {text}
-        </ButtonWithMarginTop>
-      </form>
-    </AuthFormBlock>
+          {type === "register" && (
+            <StyledInput
+              autoComplete="new-password"
+              name="passwordConfirm"
+              placeholder="비밀번호 확인"
+              type="password"
+              value={form.passwordConfirm}
+              onChange={onChangeInput}
+            />
+          )}
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+          <ButtonWithMarginTop cyan fullWidth>
+            {text}
+          </ButtonWithMarginTop>
+        </form>
+      </AuthFormBlock>
+      <ToastsContainer
+        position={ToastsContainerPosition.BOTTOM_CENTER}
+        store={ToastsStore}
+      />
+    </>
   );
 };
 

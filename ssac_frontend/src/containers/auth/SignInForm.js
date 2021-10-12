@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import AuthForm from "../../components/auth/AuthForm";
 import AuthContext from "../../context/AuthContext";
 import client from "../../libs/api/_client";
+import { ToastsStore } from "react-toasts";
 
 function SignInForm() {
   const history = useHistory();
@@ -36,6 +37,7 @@ function SignInForm() {
         client.defaults.headers.common["Authorization"] = `${accessToken}`;
         const result = await client.get("/api/auth/profile");
         setAuthInfo({ isLoggedIn: true, userInfo: result.data.data });
+        ToastsStore.success("슬기로운 백신생활 함께 해요");
         history.push("/");
       }
     } catch (error) {

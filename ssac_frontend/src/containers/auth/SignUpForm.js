@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import AuthForm from "../../components/auth/AuthForm";
 import client from "../../libs/api/_client";
 import AuthContext from "../../context/AuthContext";
+import { ToastsStore } from "react-toasts";
 
 function SignUpForm() {
   const history = useHistory();
@@ -41,6 +42,7 @@ function SignUpForm() {
           client.defaults.headers.common["Authorization"] = `${accessToken}`;
           const result = await client.get("/api/auth/profile");
           setAuthInfo({ isLoggedIn: true, userInfo: result.data.data });
+          ToastsStore.success("회원가입 완료! 슬기로운 백신생활 시작!");
           history.push("/"); //추후 회원정보 수정 화면으로 변경
         }
       } catch (error) {
