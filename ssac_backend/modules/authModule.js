@@ -26,7 +26,6 @@ const authModule = {
         message: "토큰 에러",
       });
     }
-
     let userInfo;
     try {
       userInfo = await user.findOne({ email: decoded.email });

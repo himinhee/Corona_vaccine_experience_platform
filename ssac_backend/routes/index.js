@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 const authRouter = require("./auth/index");
-router.use("/auth", authRouter);
+router.use("/api/auth", authRouter);
 
 const postRouter = require("./post/index");
 router.use("/posts", postRouter);

@@ -18,7 +18,10 @@ function SignInForm() {
     nickName: "",
   });
 
-  const onChangeInput = (e) => {};
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
 
   const onClickSubmit = async (e) => {
     e.preventDefault();
@@ -27,20 +30,18 @@ function SignInForm() {
         email: form.email,
         password: form.password,
       });
-      console.log(response);
       if (response.status === 200) {
         const accessToken = response.data.accessToken;
         localStorage.setItem("accessToken", accessToken);
         client.defaults.headers.common["Authorization"] = `${accessToken}`;
         const result = await client.get("/api/auth/profile");
-        setAuthInfo({ isLoggedIn: true, authInfo: result.data.data });
+        setAuthInfo({ isLoggedIn: true, userInfo: result.data.data });
         history.push("/");
       }
     } catch (error) {
-      console.log(error);
       if (error.response.status === 400) {
-        setError("이메일 / 비밀번호를 확인해 주시기 바랍니다.");
-      }
+        window.alert(error.response.data.message);
+      } else console.log(error);
     }
   };
 

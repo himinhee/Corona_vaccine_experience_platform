@@ -36,7 +36,7 @@ const authController = {
       const result = await user.findOne({ email: email });
 
       if (!result) {
-        return res.status(409).json({
+        return res.status(400).json({
           message: "해당 email이 존재하지 않습니다.",
         });
       } else {
@@ -49,14 +49,14 @@ const authController = {
               verified: result.verified,
             };
             const token = jwtModule.create(payload);
-
+            console.log(token);
             return res.status(200).json({
               message: "로그인 성공",
               accessToken: token,
             });
           } else {
             console.log("pw 불일치");
-            return res.status(409).json({
+            return res.status(400).json({
               message: "비밀번호가 틀렸습니다.",
             });
           }
@@ -169,6 +169,15 @@ const authController = {
         message: "이미지 업로드 실패",
       });
     }
+  },
+  profile: function (req, res) {
+    let userInfo = req.userInfo;
+    userInfo.password = null;
+
+    res.status(200).json({
+      message: "이미지 업로드 완료",
+      data: userInfo,
+    });
   },
 };
 

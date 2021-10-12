@@ -20,4 +20,7 @@ router.put(
 );
 router.delete("/leave/:userId", authModule.loggedIn, authController.deleteUser);
 
+//비밀번호를 제외한 회원 정보 전송
+router.get("/profile", authModule.loggedIn, authController.profile);
+
 module.exports = router;
