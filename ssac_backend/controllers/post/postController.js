@@ -81,6 +81,8 @@ const postController = {
       publishDate: new Date(),
       writer: userInfo._id,
     });
+    console.log(userInfo);
+    console.log(boardModel);
 
     boardModel
       .save()
@@ -90,6 +92,7 @@ const postController = {
         });
       })
       .catch((err) => {
+        console.log(err);
         res.status(500).json({
           message: "DB 서버 에러",
         });
@@ -98,13 +101,11 @@ const postController = {
   updatePost: async function (req, res) {
     const userInfo = req.userInfo;
     const { id } = req.params; //게시물의 id를 parameter로 받음
-
     //글쓴이=삭제요청자 인 경우에만 수정 허용
     const isSameWriter = await post.checkWriter({
       postId: id,
       writerId: userInfo._id,
     });
-
     if (isSameWriter === -1) {
       return res.status(409).json({ message: "접근 권한이 없습니다." });
     } else if (isSameWriter === -2) {
@@ -132,7 +133,6 @@ const postController = {
           message: "게시물 수정 실패",
           error: error,
         });
-        console.log(error);
       }
     }
   },

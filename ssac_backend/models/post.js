@@ -28,6 +28,7 @@ postSchema.statics.checkWriter = async function (params) {
     if (ownId.toString() !== writerId.toString()) return -1;
     else return 1;
   } catch (error) {
+    console.log(error);
     return -2;
   }
 };

@@ -5,8 +5,9 @@ import TagBoxContainer from "../containers/write/TagBoxContainer";
 import WriteActionButtonContainer from "../containers/write/WriteActionButtonContainer";
 import WriteDropDownContainer from "../containers/write/WriteDropDownContainer";
 import BlockBox from "../components/common/block/BlockBox";
+import ReactQuill from "react-quill";
 
-function WirtePage() {
+function WritePage() {
   return (
     <Responsive>
       <BlockBox height={"3rem"} />
@@ -18,4 +19,4 @@ function WirtePage() {
   );
 }
 
-export default WirtePage;
+export default WritePage;

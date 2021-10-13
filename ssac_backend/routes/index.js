@@ -5,7 +5,7 @@ const authRouter = require("./auth/index");
 router.use("/api/auth", authRouter);
 
 const postRouter = require("./post/index");
-router.use("/posts", postRouter);
+router.use("/api/posts", postRouter);
 
 /* GET home page. */
 router.get("/", function (req, res, next) {

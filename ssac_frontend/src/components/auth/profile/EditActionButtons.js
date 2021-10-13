@@ -1,8 +1,9 @@
 import React from "react";
+import ButtonComponent from "../../common/ButtonComponent";
 import styled from "styled-components";
-import ButtonComponent from "../common/ButtonComponent";
+import Responsive from "../../common/Responsive";
 
-const WriteActionButtonWrapper = styled.div`
+const EditActionButtonWrapper = styled(Responsive)`
   margin-top: 2rem;
   margin-bottom: 3rem;
 
@@ -19,15 +20,15 @@ const StyledButton = styled(ButtonComponent)`
   }
 `;
 
-const WriteActionButtons = ({ isEdit, onCancel, onEdit, onPublish }) => {
+function EditActionButtons({ onEdit, onCancel }) {
   return (
-    <WriteActionButtonWrapper>
-      <StyledButton cyan onClick={isEdit ? onEdit : onPublish}>
-        게시물 {isEdit ? "수정" : "등록"}
+    <EditActionButtonWrapper>
+      <StyledButton cyan onClick={onEdit}>
+        정보 수정
       </StyledButton>
       <StyledButton onClick={onCancel}>취소</StyledButton>
-    </WriteActionButtonWrapper>
+    </EditActionButtonWrapper>
   );
-};
+}
 
-export default WriteActionButtons;
+export default EditActionButtons;
