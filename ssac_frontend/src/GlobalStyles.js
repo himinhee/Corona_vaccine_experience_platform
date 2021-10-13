@@ -35,7 +35,9 @@ const GlobalStyles = createGlobalStyle`
   strong {
     font-weight: bolder
   };
-  .toast {
+
+
+.toast {
   color: #ffffff !important;
   font-size: 1.4rem;
   font-weight: 500;
@@ -60,7 +62,6 @@ const GlobalStyles = createGlobalStyle`
 .toast-success {
   background-color: rgba(51,113,246,0.8) !important;
 }
-
 `;
 
 export default GlobalStyles;

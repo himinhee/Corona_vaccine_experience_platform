@@ -26,10 +26,9 @@ const StyledIcon = styled(BsPlusLg)`
 
 function WriteButton() {
   const history = useHistory();
-  console.log(history);
   return (
-    <StyledButton>
-      <StyledIcon onClick={() => history.push("/write")} />
+    <StyledButton onClick={() => history.push("/write")}>
+      <StyledIcon />
     </StyledButton>
   );
 }

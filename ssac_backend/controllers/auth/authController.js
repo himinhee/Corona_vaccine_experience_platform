@@ -185,7 +185,7 @@ const authController = {
     userInfo.password = null;
 
     res.status(200).json({
-      message: "이미지 업로드 완료",
+      message: "해당 회원 정보 전송",
       data: userInfo,
     });
   },

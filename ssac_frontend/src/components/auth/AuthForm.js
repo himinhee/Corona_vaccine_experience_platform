@@ -10,6 +10,8 @@ import {
 } from "react-toasts";
 
 const AuthFormBlock = styled.div`
+  box-sizing: border-box;
+
   h3 {
     margin: 0;
     color: ${palette.gray[8]};
@@ -110,10 +112,6 @@ const AuthForm = ({ type, form, onChangeInput, onClickSubmit, error }) => {
           </ButtonWithMarginTop>
         </form>
       </AuthFormBlock>
-      <ToastsContainer
-        position={ToastsContainerPosition.BOTTOM_CENTER}
-        store={ToastsStore}
-      />
     </>
   );
 };
