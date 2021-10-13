@@ -79,7 +79,7 @@ const WriteActionButtonsContainer = ({ history }) => {
           title: postInfo.title,
           content: postInfo.body,
           tags: postInfo.tags,
-          category: codeTable("category", postInfo.category.value),
+          category: codeTable("category", postInfo.category),
         }
       );
       if (response.status === 200) {
