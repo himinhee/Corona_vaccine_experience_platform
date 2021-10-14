@@ -8,6 +8,13 @@ const ProfileProvider = ({ children }) => {
     type: "",
     degree: 0,
     imgURL: "",
+    bDay: {
+      year: "",
+      month: "",
+      day: "",
+    },
+    inoDate1: "",
+    inoDate2: "",
   });
 
   return (

@@ -6,6 +6,7 @@ import EditAvatar from "../../common/avatar/EditAvatar";
 import DropDown from "../../common/dropdown/DropDown";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import Radio from "../../common/radio/Radio";
 
 import codemgmt from "../../../modules/codemgmt";
 import { YearPicker, MonthPicker, DayPicker } from "react-dropdown-date";
@@ -73,10 +74,10 @@ function EditProfile({
     day: "",
   });
 
-  const genderOptions = [
-    { value: "male", label: "남자", key: "gender", className: "gender" },
-    { value: "female", label: "여자", key: "gender", className: "gender" },
-  ];
+  // const genderOptions = [
+  //   { value: "male", label: "남자", key: "gender", className: "gender" },
+  //   { value: "female", label: "여자", key: "gender", className: "gender" },
+  // ];
 
   const vachineOptions = [
     { value: "MD", label: "모더나", key: "vachine", className: "gender" },
@@ -128,7 +129,7 @@ function EditProfile({
             value={bDay.month} // mandatory
             onChange={(month) => {
               // mandatorys
-              setbDay({ ...bDay, month: Number(month) + 1 });
+              setbDay({ ...bDay, month: Number(month) });
               console.log(month);
             }}
             id={"month"}
@@ -159,34 +160,13 @@ function EditProfile({
         <EditLabelWrap>
           <BoldLabel>성별 선택</BoldLabel>
         </EditLabelWrap>
-        <StyledDropDown
-          onChangeDropDown={onChangeDropDown}
-          options={genderOptions}
-          myPlaceholder={"성별을 선택 해주세요."}
-        />
-      </EditItemBlock>
-
-      <EditItemBlock>
-        <EditLabelWrap>
-          <BoldLabel>성별</BoldLabel>
-        </EditLabelWrap>
-        {codemgmt.gender.map((option) => (
-          <OptionLabel>
-            <RadioButton type="radio" name="gender" value={option} />
-            {option}
-          </OptionLabel>
-        ))}
+        <Radio optionArray={codemgmt.genderOptions} />
       </EditItemBlock>
       <EditItemBlock>
         <EditLabelWrap>
           <BoldLabel>백신 선택</BoldLabel>
         </EditLabelWrap>
-        {codemgmt.vacType.map((option) => (
-          <OptionLabel>
-            <RadioButton type="radio" name="gender" value={option} />
-            {option}
-          </OptionLabel>
-        ))}
+        <Radio optionArray={codemgmt.vaccineOptions} />
       </EditItemBlock>
 
       <EditItemBlock>
