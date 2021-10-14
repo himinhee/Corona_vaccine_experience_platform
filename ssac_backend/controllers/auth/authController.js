@@ -118,7 +118,7 @@ const authController = {
           nickName,
           password,
           type,
-          age,
+          bDay,
           gender,
           inoDate1,
           inoDate2,
@@ -128,10 +128,9 @@ const authController = {
         // verified의 기본값은 false - 추가정보 5종 모두 입력 시 true로 변환
         let verified = false;
         if (
-          age !== null &&
+          bDay !== null &&
           gender !== null &&
-          type !== null &&
-          inoDate1 !== null &&
+          inoInfo !== null &&
           profileImage !== null
         ) {
           verified = true;
@@ -144,7 +143,7 @@ const authController = {
             nickName,
             password,
             type,
-            age,
+            bDay,
             gender,
             inoDate1,
             inoDate2,

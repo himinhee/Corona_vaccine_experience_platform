@@ -7,21 +7,25 @@ const userSchema = new Schema({
   nickName: { type: String, required: true, unique: true },
   password: { type: String, required: true },
 
-  // 추가정보 : 백신 타입, 나이, 성별, 백신접종날짜
-  type: {
-    type: String,
-    enum: ["모더나", "화이자", "AZ", "얀센", null],
-    default: null,
-  },
+  // 추가정보 : 백신 타입, 생일, 성별, 프로필 이미지
+  inoInfo: [
+    {
+      degree: { type: Number, default: 0 },
+      vaccineType: {
+        type: String,
+        enum: ["Moderna", "Pfizer", "AZ", "Jonhsen"],
+        required: true,
+      },
+      inoDate: { type: Date, default: null },
+    },
+  ],
   bDay: { type: Date, default: null },
-  gender: { type: Number, enum: [0, 1, 2, null], default: null }, //0 : 여자, 1 : 남자, 2 : 기타
-  inoDate1: { type: Date, default: null },
-  inoDate2: { type: Date, default: null },
+  gender: { type: Number, enum: [0, 1, null], default: null }, //0 : 여자, 1 : 남자
   profileImage: { type: String, default: null }, //S3 img file url
   signupDate: { type: Date, default: new Date() },
   updateDate: { type: Date, default: null },
 
-  //추가정보 5가지를 모두 입력 시 verified=true, 그 외에는 false
+  //추가정보 4가지를 모두 입력 시 verified=true, 그 외에는 false
   verified: { type: Boolean, default: false },
 });
 

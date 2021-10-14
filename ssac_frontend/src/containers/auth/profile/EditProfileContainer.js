@@ -35,12 +35,16 @@ function EditProfileContainer() {
     console.log(date);
   };
 
+  const onChangeSelect = (e) => {
+    console.log(e.target);
+  };
   return (
     <EditProfile
       onChangeDropDown={onChangeDropDown}
       profileImg={profileImg}
       onClickAvatar={onClickAvatar}
       onChangeCalender={onChangeCalender}
+      onChangeSelect={onChangeSelect}
     />
   );
 }

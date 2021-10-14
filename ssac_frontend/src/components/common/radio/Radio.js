@@ -9,14 +9,19 @@ const RadioButton = styled.input`
   font-size: 1.3rem;
 `;
 
-function Radio({ optionArray }) {
+function Radio({ optionArray, onChangeSelect }) {
   //   const optionArray = [];
   //   optionArray = inputArray;
   return (
     <>
       {optionArray.map((option, index) => (
         <OptionLabel key={index}>
-          <RadioButton type="radio" name={option.key} value={option.value} />
+          <RadioButton
+            type="radio"
+            name={option.key}
+            value={option.value}
+            onChange={onChangeSelect}
+          />
           {option.label}
         </OptionLabel>
       ))}

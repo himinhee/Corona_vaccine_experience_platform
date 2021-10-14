@@ -3,18 +3,19 @@ import ProfileContext from "../ProfileContext";
 
 const ProfileProvider = ({ children }) => {
   const [profileInfo, setProfleInfo] = useState({
-    vachine: "",
     gender: "",
-    type: "",
-    degree: 0,
     imgURL: "",
     bDay: {
       year: "",
       month: "",
       day: "",
     },
-    inoDate1: "",
-    inoDate2: "",
+    inoInfo: [],
+    // inoInfo: {
+    //   degree: "",
+    //   vaccineType: "",
+    //   inoDate: "",
+    // },
   });
 
   return (
