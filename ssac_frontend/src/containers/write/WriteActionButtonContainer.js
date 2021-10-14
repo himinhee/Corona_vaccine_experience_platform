@@ -5,8 +5,7 @@ import WriteActionButtons from "../../components/write/WriteActionButtons";
 import client from "../../libs/api/_client";
 import { ToastsStore } from "react-toasts";
 import PostContext from "../../context/PostContext";
-import codeTable from "../../modules/codeTable";
-import reverseCodeTable from "../../modules/reverseCodeTable";
+import codemgmt from "../../modules/codemgmt";
 
 const WriteActionButtonsContainer = ({ history }) => {
   const { postInfo, setPostInfo, resetPost } = useContext(PostContext);
@@ -33,7 +32,10 @@ const WriteActionButtonsContainer = ({ history }) => {
         );
         const result = response.data.data;
         const { title, content, tags, category } = result;
-        const categoryWord = reverseCodeTable("category", Number(category));
+        const categoryWord = codemgmt.reverseCodeTable(
+          "category",
+          Number(category)
+        );
         setPostInfo({
           ...postInfo,
           title: title,
@@ -54,7 +56,7 @@ const WriteActionButtonsContainer = ({ history }) => {
         title: postInfo.title,
         content: postInfo.body,
         tags: postInfo.tags,
-        category: codeTable("category", postInfo.category.value),
+        category: codemgmt.codeTable("category", postInfo.category.value),
       });
       if (response.status === 200) {
         ToastsStore.success("백신 경험 나눠주셔서 감사해요");
@@ -79,7 +81,7 @@ const WriteActionButtonsContainer = ({ history }) => {
           title: postInfo.title,
           content: postInfo.body,
           tags: postInfo.tags,
-          category: codeTable("category", postInfo.category),
+          category: codemgmt.codeTable("category", postInfo.category),
         }
       );
       if (response.status === 200) {

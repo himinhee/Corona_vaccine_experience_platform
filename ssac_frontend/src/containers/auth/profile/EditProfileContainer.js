@@ -3,16 +3,46 @@ import { useState } from "react";
 import EditProfile from "../../../components/auth/profile/EditProfile";
 
 function EditProfileContainer() {
-  const [profile, setProfile] = useState({
+  const [profileImg, setProfileImg] = useState({
     imgBase64: "",
     imgFile: null,
-    imgUrl: "",
+    imgURL: "",
   });
 
-  const onClickAvatar = () => {
-    console.log("??");
+  const [profileInfo, setProfileInfo] = useState({
+    vachine: "",
+    gender: "",
+    type: "",
+    degree: 0,
+    imgURL: "",
+  });
+
+  const onClickAvatar = (e) => {
+    const imageFile = e.target.files[0];
+    const imgBase64 = URL.createObjectURL(imageFile);
+    setProfileImg({
+      ...profileImg,
+      imgBase64: imgBase64,
+      imgFile: imageFile,
+    });
   };
-  return <EditProfile onClickAvatar={onClickAvatar} />;
+
+  const onChangeDropDown = (payload) => {
+    console.log(payload);
+  };
+
+  const onChangeCalender = (date) => {
+    console.log(date);
+  };
+
+  return (
+    <EditProfile
+      onChangeDropDown={onChangeDropDown}
+      profileImg={profileImg}
+      onClickAvatar={onClickAvatar}
+      onChangeCalender={onChangeCalender}
+    />
+  );
 }
 
 export default EditProfileContainer;
