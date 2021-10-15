@@ -4,4 +4,6 @@ export default createContext({
   profileInfo: {},
   setProfileInfo: () => {},
   resetProfileInfo: () => {},
+  inoInfo: {},
+  setInoInfo: () => {},
 });

@@ -9,13 +9,14 @@ import client from "../../../libs/api/_client";
 import dayjs from "dayjs";
 
 function EditProfileContainer() {
-  const { profileInfo, setProfileInfo } = useContext(ProfileContext);
   const { authInfo } = useContext(AuthContext);
   const [profileImg, setProfileImg] = useState({
     imgBase64: "",
     imgFile: null,
     imgURL: "",
   });
+  const { inoInfo, setInoInfo, profileInfo, setProfileInfo } =
+    useContext(ProfileContext);
 
   useEffect(() => {
     console.log(authInfo.userInfo);
@@ -25,8 +26,8 @@ function EditProfileContainer() {
       imgURL: authInfo.userInfo.profileImage,
       bDay: authInfo.userInfo.bDay,
       inoInfo: [
-        { degree: 1, vaccinType: "AZ", inoDate: "2021-10-15" },
-        // { degree: 2, vaccinType: "AZ", inoDate: "2021-10-20" },
+        { degree: 1, vaccineType: "Moderna", inoDate: "2021-10-15" },
+        { degree: 2, vaccineType: "AZ", inoDate: "2021-10-20" },
         //   inoInfo: authInfo.inoInfo,
       ],
     });
@@ -70,14 +71,6 @@ function EditProfileContainer() {
     }
   };
 
-  const onChangeDropDown = (payload) => {
-    console.log(payload);
-  };
-
-  const onChangeCalender = (date) => {
-    console.log(date);
-  };
-
   const onChangeSelect = (e) => {
     const { name, value } = e.target;
     setProfileInfo({ ...profileInfo, [name]: value });
@@ -87,15 +80,69 @@ function EditProfileContainer() {
     const formatDate = dayjs(date).format("YYYY-MM-DD");
     setProfileInfo({ ...profileInfo, bDay: formatDate });
   };
+
+  const onClickiInoInfoDelete = (index) => {
+    const newInoInfo = profileInfo.inoInfo.filter((e, i) => {
+      return i !== index;
+    });
+    setProfileInfo({ ...profileInfo, inoInfo: newInoInfo });
+    console.log(profileInfo.inoInfo);
+  };
+
+  const addInoInfo = () => {
+    const degree =
+      profileInfo.inoInfo[profileInfo.inoInfo.length - 1].degree + 1;
+    const newInfo = { degree: degree, vaccineType: "", inoDate: "" };
+    console.log(newInfo);
+
+    const newInoInfo = profileInfo.inoInfo.concat(newInfo);
+    console.log(newInoInfo);
+
+    setProfileInfo({ ...profileInfo, inoInfo: newInoInfo });
+    console.log(profileInfo.inoInfo);
+  };
+
+  const onChangeInoInfo = (e) => {
+    const { nameDegree, value } = e.target;
+    console.log(nameDegree);
+    console.log(value);
+
+    // const name
+    // const degree
+    // name+degree
+
+    // setInoInfo(profileInfo.inoInfo[degree-1])
+    //   setInoInfo({
+    //     ...inoInfo,
+    //     [name]: value,
+    //   });
+
+    //   const newInoInfo = profileInfo.inoInfo.filter((e, degree) => {
+    //     return profileInfo.inoInfo.degree !== degree;
+    //   });
+
+    //   const newnewInoInfo = newInInfo.concat(inoInfo);
+
+    //   setProfileInfo({ ...profileInfo, inoInfo: newnewInoInfo });
+  };
+
+  const onChangeInoDate = (date) => {
+    const formatDate = dayjs(date).format("YYYY-MM-DD");
+    setInoInfo({ ...inoInfo, inoDate: formatDate });
+    console.log(inoInfo);
+  };
+
   return (
     <EditProfile
-      onChangeDropDown={onChangeDropDown}
       profileImg={profileImg}
       onClickAvatar={onClickAvatar}
-      onChangeCalender={onChangeCalender}
+      onChangeInoDate={onChangeInoDate}
       onChangeSelect={onChangeSelect}
       onChangeBDay={onChangeBDay}
       profileInfo={profileInfo}
+      onClickiInoInfoDelete={onClickiInoInfoDelete}
+      addInoInfo={addInoInfo}
+      onChangeInoInfo={onChangeInoInfo}
     />
   );
 }

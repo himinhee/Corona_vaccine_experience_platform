@@ -9,9 +9,15 @@ const RadioButton = styled.input`
   font-size: 1.3rem;
 `;
 
-function Radio({ optionArray, onChangeSelect, defaultValue }) {
+function Radio({ optionArray, onChangeSelect, defaultValue, addInfo }) {
   //   const optionArray = [];
   //   optionArray = inputArray;
+  let degree;
+  if (addInfo) {
+    degree = addInfo;
+  } else {
+    degree = "";
+  }
   return (
     <>
       {optionArray.map((option, index) =>
@@ -19,7 +25,7 @@ function Radio({ optionArray, onChangeSelect, defaultValue }) {
           <OptionLabel key={index}>
             <RadioButton
               type="radio"
-              name={option.key}
+              name={option.key + degree}
               value={option.value}
               onChange={onChangeSelect}
             />
@@ -29,7 +35,7 @@ function Radio({ optionArray, onChangeSelect, defaultValue }) {
           <OptionLabel key={index}>
             <RadioButton
               type="radio"
-              name={option.key}
+              name={option.key + degree}
               value={option.value}
               onChange={onChangeSelect}
               checked="checked"

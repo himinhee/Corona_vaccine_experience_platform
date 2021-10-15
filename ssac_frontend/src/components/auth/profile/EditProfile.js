@@ -7,10 +7,9 @@ import DropDown from "../../common/dropdown/DropDown";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Radio from "../../common/radio/Radio";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import dayjs from "dayjs";
 import InoInfoInput from "../../common/inoInfoInput/InoInfoInput";
+import DefaultButton from "../../common/button/DefaultButton";
 
 import codemgmt from "../../../modules/codemgmt";
 
@@ -53,11 +52,13 @@ const StyledDropDown = styled(DropDown)`
 function EditProfile({
   onClickAvatar,
   profileImg,
-  onChangeDropDown,
-  onChangeCalender,
   onChangeSelect,
   onChangeBDay,
   profileInfo,
+  onClickiInoInfoDelete,
+  addInoInfo,
+  onChangeInoDate,
+  onChangeInoInfo,
 }) {
   return (
     <PageWrap>
@@ -94,7 +95,13 @@ function EditProfile({
             />
           )}
         </EditItemBlock>
-        <InoInfoInput inoInfoArray={profileInfo.inoInfo} />
+        <InoInfoInput
+          inoInfoArray={profileInfo.inoInfo}
+          onChangeCalender={onChangeInoDate}
+          onChangeSelect={onChangeInoInfo}
+          onClickiInoInfoDelete={onClickiInoInfoDelete}
+        />
+        <DefaultButton onClick={addInoInfo}>백신 접종 정보 추가</DefaultButton>
       </EditProfileWrap>
     </PageWrap>
   );

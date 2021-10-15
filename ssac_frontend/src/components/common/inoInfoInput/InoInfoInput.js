@@ -4,6 +4,7 @@ import BoldLabel from "../text/BoldLabel";
 import Radio from "../radio/Radio";
 import codemgmt from "../../../modules/codemgmt";
 import Calendar from "react-calendar";
+import DefaultButton from "../button/DefaultButton";
 
 const EditItemBlock = styled.div`
   margin-top: 3rem;
@@ -16,7 +17,12 @@ const EditItemWrap = styled.div`
   margin-bottom: 2rem;
 `;
 
-function InoInfoInput({ inoInfoArray, onChangeSelect, onChangeCalender }) {
+function InoInfoInput({
+  inoInfoArray,
+  onChangeSelect,
+  onChangeCalender,
+  onClickiInoInfoDelete,
+}) {
   if (inoInfoArray.length > 0) {
     return (
       <>
@@ -29,20 +35,33 @@ function InoInfoInput({ inoInfoArray, onChangeSelect, onChangeCalender }) {
               <Radio
                 optionArray={codemgmt.vaccineOptions}
                 onChangeSelect={onChangeSelect}
+                defaultValue={inoInfo.vaccineType}
+                addInfo={inoInfo.degree}
               />
             </EditItemWrap>
             <EditItemWrap>
-              <Calendar
-                onChange={onChangeCalender}
-                value={new Date("2020-01-23")}
-              />
+              {inoInfo.inoDate ? (
+                <Calendar
+                  onChange={onChangeCalender}
+                  value={new Date(inoInfo.inoDate)}
+                />
+              ) : (
+                <Calendar onChange={onChangeCalender} value={new Date()} />
+              )}
             </EditItemWrap>
+            <DefaultButton onClick={() => onClickiInoInfoDelete(index)}>
+              접종 정보 삭제
+            </DefaultButton>
           </EditItemBlock>
         ))}
       </>
     );
   } else {
-    return <BoldLabel>백신 접종 정보 - 접종 이력 없음</BoldLabel>;
+    return (
+      <EditItemBlock>
+        <BoldLabel>백신 접종 정보 - 접종 이력 없음</BoldLabel>
+      </EditItemBlock>
+    );
   }
 }
 

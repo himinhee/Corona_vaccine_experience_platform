@@ -23,12 +23,20 @@ const ProfileProvider = ({ children }) => {
     });
   };
 
+  const [inoInfo, setInoInfo] = useState({
+    vaccine: "",
+    degree: "",
+    inoDate: "",
+  });
+
   return (
     <ProfileContext.Provider
       value={{
         profileInfo,
         setProfileInfo,
         resetProfileInfo,
+        inoInfo,
+        setInoInfo,
       }}
     >
       {children}
