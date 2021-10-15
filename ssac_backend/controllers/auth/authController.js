@@ -104,7 +104,6 @@ const authController = {
   updateUserInfo: async function (req, res) {
     const userInfo = req.userInfo;
     const userId = req.params.userId;
-
     if (userInfo._id.toString() !== userId) {
       return res.status(409).json({
         message: "회원 정보 수정은 회원 본인만 신청 가능합니다.",
@@ -114,16 +113,7 @@ const authController = {
         //프론트에서 개인정보 수정시, userInfo를 read하여 모든 field의 정보를 한번에 보내준다고 가정
         //프론트의 로직에 따라 추후 수정 필요
         //email은 수정 불가
-        const {
-          nickName,
-          password,
-          type,
-          bDay,
-          gender,
-          inoDate1,
-          inoDate2,
-          profileImage,
-        } = req.body;
+        const { bDay, gender, profileImage, inoInfo } = req.body;
 
         // verified의 기본값은 false - 추가정보 5종 모두 입력 시 true로 변환
         let verified = false;
@@ -139,15 +129,10 @@ const authController = {
         const updated = await user.findByIdAndUpdate(
           userId,
           {
-            email,
-            nickName,
-            password,
-            type,
             bDay,
             gender,
-            inoDate1,
-            inoDate2,
             profileImage,
+            inoInfo,
             updateDate: new Date(),
             verified: verified,
           },
@@ -168,6 +153,7 @@ const authController = {
   },
   uploadImage: function (req, res) {
     const img = req.file;
+
     if (img) {
       res.status(200).json({
         message: "이미지 업로드 완료",
