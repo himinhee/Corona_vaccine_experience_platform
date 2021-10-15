@@ -174,6 +174,28 @@ const authController = {
       data: userInfo,
     });
   },
+  writerProfile: async function (req, res) {
+    const { writerId } = req.params;
+    try {
+      let writerInfo = await user.findOne({ _id: writerId });
+      if (writerInfo) {
+        writerInfo.password = null;
+        return res.status(200).json({
+          message: "게시물 작성자 조회 성공",
+          data: writerInfo,
+        });
+      } else {
+        return res.status(400).json({
+          message: "게시물 작성자가 DB에 존재하지 않습니다.",
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: "DB 에러",
+        error: error,
+      });
+    }
+  },
 };
 
 module.exports = authController;

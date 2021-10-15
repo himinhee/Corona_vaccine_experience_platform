@@ -23,4 +23,10 @@ router.delete("/leave/:userId", authModule.loggedIn, authController.deleteUser);
 //비밀번호를 제외한 회원 정보 전송
 router.get("/profile", authModule.loggedIn, authController.profile);
 
+//게시물 상세 조회(즉, 유저가 로그인 상태에서만 작동)에 포함될 게시물 작성자 정보 전송
+router.get(
+  "/writerProfile/:writerId",
+  authModule.loggedIn,
+  authController.writerProfile
+);
 module.exports = router;

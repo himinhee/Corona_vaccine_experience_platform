@@ -12,9 +12,9 @@ client.interceptors.response.use(
   (error) => {
     const { status, data } = error.response;
 
-    if (status === 401) {
-      history.push("/addprofile");
-    }
+    // if (status === 401) {
+    //   history.push("/addprofile");
+    // }
 
     return Promise.reject(error);
   }

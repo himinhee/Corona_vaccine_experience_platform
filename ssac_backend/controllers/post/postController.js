@@ -28,10 +28,7 @@ const postController = {
   readExactPost: async function (req, res) {
     const { id } = req.params;
     try {
-      //populate 대상은 front 구현시 필요 정보 정의 후 확정
-      const result = await post
-        .findById(id)
-        .populate("writer", "nickName inoInfo gender profileImg bDay");
+      const result = await post.findOne({ _id: id });
       if (result) {
         return res.status(200).json({
           message: "조회 성공",

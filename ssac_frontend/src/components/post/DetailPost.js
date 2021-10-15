@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import DefaultAvatar from "../../assets/global/profile.png";
 import { BsGenderMale } from "react-icons/bs";
 import { BsGenderFemale } from "react-icons/bs";
 import styled from "styled-components";
 import Responsive from "../common/Responsive";
 import Comment from "../common/comment/Comment";
+import codemgmt from "../../modules/codemgmt";
+import LoadingComponent from "../common/loading/LoadingComponent";
 
 const DetailWrap = styled(Responsive)`
   margin-top: 3rem;
@@ -43,7 +45,7 @@ const ProfileImageWrap = styled.div`
 
 const ProfileImage = styled.img`
   height: 100%;
-  min-width: 100%;
+  max-width: 100%;
   left: 50%;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.05);
 
@@ -131,54 +133,99 @@ const PostTagsItem = styled.div`
   }
 `;
 
-function DetailPost({ postInfo }) {
-  const gender = "male";
+function DetailPost({ eachPost, writerInfo, loading }) {
+  //   category: 2
+  // comments: []
+  // content: "<p>증말 아파요</p><p>으아아앙아아</p>"
+  // publishDate: "2021-10-15T08:09:40.059Z"
+  // tags: ['아프다']
+  // title: "두번째 후기"
+  // updateDate: null
+  // writer: "6167f3d4c488703667487aa6"
+  // __v: 0
+  // _id: "61693744f8da2198019a40de"
+
+  // bDay: "2000-10-11T00:00:00.000Z"
+  // email: "test@email.com"
+  // gender: 1
+  // inoInfo: Array(2)
+  // 0: {degree: 1, vaccineType: 'Moderna', inoDate: '2021-10-15T00:00:00.000Z', _id: '61693d6eaff992d9a452dd59'}
+  // 1: {degree: 2, vaccineType: 'AZ', inoDate: '2021-10-20T00:00:00.000Z', _id: '61693d6eaff992d9a452dd5a'}
+  // length: 2
+  // [[Prototype]]: Array(0)
+  // nickName: "nickname"
+  // password: null
+  // profileImage: "https://flowersleetest.s3.ap-northeast-2.amazonaws.com/1634286950794.JPG"
+  // signupDate: "2021-10-14T03:26:26.296Z"
+  // updateDate: "2021-10-15T08:35:58.339Z"
+
+  const {
+    category,
+    comments,
+    content,
+    publishDate,
+    tags,
+    title,
+    updateDate,
+    writer,
+    _id,
+  } = eachPost;
+  const { bDay, gender, inoInfo, nickName, profileImage } = writerInfo;
+  console.log(eachPost);
+  console.log(writerInfo);
   return (
-    <DetailWrap>
-      <DetailContainer>
-        <DetailPostBlock>
-          <ProfileWrap>
-            <ProfileImageWrap>
-              <ProfileImage src={""} />
-            </ProfileImageWrap>
-            <PostItemInfoWrap>
-              <ProfileInfoWrap>
-                <span className="nickName">
-                  이동훈
-                  {gender === "male" ? (
-                    <StyledMaleIcon />
-                  ) : (
-                    <StyledFemaleIcon />
-                  )}
-                </span>
-                <span className="profile">모더나</span>
-                <span className="dot">·</span>
-                <span className="profile">1차</span>
-                <span className="dot">·</span>
-                <span className="profile">20대</span>
-              </ProfileInfoWrap>
-              {/* 시간 남으면 1분전, 2시간전... 등 같이 만들어보기 */}
-              <PostItemDate>2021-10-14 / 13:33</PostItemDate>
-            </PostItemInfoWrap>
-          </ProfileWrap>
-          <PostContentWrap>
-            <PostCategory>후기</PostCategory>
-            <PostTitle>오늘 모더나 백신 맞고 왔습니다.</PostTitle>
-            <PostContent>
-              오늘 백신 맞고 왔습니다... 많이 아프네요.. 다들 힘내시길... <br />{" "}
-              힘내시길 바래요 힘내시길 바래요 힘내시길 바래요 힘내시길 바래요
-              힘내시길 바래요
-            </PostContent>
-            <PostTags>
-              <PostTagsItem>#모더나</PostTagsItem>
-              <PostTagsItem>#부작용</PostTagsItem>
-              <PostTagsItem>#아픔</PostTagsItem>
-            </PostTags>
-          </PostContentWrap>
-          <Comment />
-        </DetailPostBlock>
-      </DetailContainer>
-    </DetailWrap>
+    <>
+      {loading ? (
+        <LoadingComponent />
+      ) : (
+        <DetailWrap>
+          <DetailContainer>
+            <DetailPostBlock>
+              <ProfileWrap>
+                <ProfileImageWrap>
+                  <ProfileImage src={profileImage} />
+                </ProfileImageWrap>
+                <PostItemInfoWrap>
+                  <ProfileInfoWrap>
+                    <span className="nickName">
+                      {nickName && nickName}
+                      {codemgmt.reverseCodeTable("gender", gender) ===
+                      "남자" ? (
+                        <StyledMaleIcon />
+                      ) : (
+                        <StyledFemaleIcon />
+                      )}
+                    </span>
+                    <span className="profile">모더나</span>
+                    <span className="dot">·</span>
+                    <span className="profile">1차</span>
+                    <span className="dot">·</span>
+                    <span className="profile">20대</span>
+                  </ProfileInfoWrap>
+                  {/* 시간 남으면 1분전, 2시간전... 등 같이 만들어보기 */}
+                  <PostItemDate>2021-10-14 / 13:33</PostItemDate>
+                </PostItemInfoWrap>
+              </ProfileWrap>
+              <PostContentWrap>
+                <PostCategory>후기</PostCategory>
+                <PostTitle>오늘 모더나 백신 맞고 왔습니다.</PostTitle>
+                <PostContent>
+                  오늘 백신 맞고 왔습니다... 많이 아프네요.. 다들 힘내시길...{" "}
+                  <br /> 힘내시길 바래요 힘내시길 바래요 힘내시길 바래요
+                  힘내시길 바래요 힘내시길 바래요
+                </PostContent>
+                <PostTags>
+                  <PostTagsItem>#모더나</PostTagsItem>
+                  <PostTagsItem>#부작용</PostTagsItem>
+                  <PostTagsItem>#아픔</PostTagsItem>
+                </PostTags>
+              </PostContentWrap>
+              <Comment />
+            </DetailPostBlock>
+          </DetailContainer>
+        </DetailWrap>
+      )}
+    </>
   );
 }
 

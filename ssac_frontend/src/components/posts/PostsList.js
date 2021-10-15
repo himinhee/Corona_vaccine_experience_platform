@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom";
 import DetailPostContainer from "../../containers/post/DetailPostContainer";
 import PostsContext from "../../context/PostsContext";
 import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 const PostsListBlock = styled(Responsive)`
   margin-top: 3rem;
@@ -140,7 +141,6 @@ function PostItem({ post, onClickPost }) {
   const birth = dayjs(writer.bDay).format("YYYY-MM-DD");
   const calAge = codemgmt.getAge(birth);
   let inoInfoObject;
-  console.log(writer);
   if (writer.inoInfo != null) {
     inoInfoObject = writer.inoInfo[Number(writer.inoInfo.length) - 1];
   }
@@ -180,6 +180,7 @@ function PostItem({ post, onClickPost }) {
 
 function PostsList({ posts }) {
   const { postsInfo, setPostsInfo } = useContext(PostsContext);
+  const { authInfo } = useContext(AuthContext);
   const history = useHistory();
 
   return (
@@ -192,8 +193,14 @@ function PostsList({ posts }) {
                 post={post}
                 key={index}
                 onClickPost={() => {
-                  setPostsInfo({ ...postsInfo, currentPostId: post._id });
-                  history.push(`/post/${post._id}`);
+                  if (authInfo.isLoggedIn == true) {
+                    setPostsInfo({ ...postsInfo, currentPostId: post._id });
+                    history.push(`/post/${post._id}`);
+                  } else {
+                    window.alert(
+                      "게시물의 상세 내용은 로그인 후 확인하실 수 있어요."
+                    );
+                  }
                 }}
               />
             );
