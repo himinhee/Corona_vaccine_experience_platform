@@ -103,8 +103,8 @@ function EditProfileContainer() {
   };
 
   const onChangeInoInfo = (e) => {
-    const { nameDegree, value } = e.target;
-    console.log(nameDegree);
+    const { name, value } = e.target;
+    console.log(name);
     console.log(value);
 
     // const name

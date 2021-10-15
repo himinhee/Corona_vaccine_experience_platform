@@ -19,6 +19,7 @@ import {
   ToastsContainerPosition,
 } from "react-toasts";
 import EditProfilePage from "./pages/EditProfilePage";
+import DetailPostPage from "./pages/DetailPostPage";
 
 function App() {
   // const dispatch = useDispatch();
@@ -56,6 +57,7 @@ function App() {
       <Route component={SignUpPage} exact path="/signup" />
       <Route component={EditProfilePage} exact path="/edit/profile" />
       <Route component={WritePage} exact path="/write" />
+<Route component={DetailPostPage} exact path="/post/:postId" />
 
       {/* <Route component={RegisterPage} path="/register" /> */}
       {/* <Route component={WritePage} path="/write" /> */}

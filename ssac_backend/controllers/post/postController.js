@@ -5,7 +5,9 @@ const postController = {
     try {
       // writer의 oid 정보와 연결된 collection인 user로부터 원하는 column인 nickName 정보를 받아옴
       //populate 대상은 front 구현시 필요 정보 정의 후 확정
-      const result = await post.find().populate("writer", "nickName");
+      const result = await post
+        .find()
+        .populate("writer", "nickName inoInfo gender profileImg bDay");
       if (!result) {
         return res.status(400).json({
           message: "게시물 조회 실패",
@@ -27,7 +29,9 @@ const postController = {
     const { id } = req.params;
     try {
       //populate 대상은 front 구현시 필요 정보 정의 후 확정
-      const result = await post.findById(id).populate("writer", "nickName");
+      const result = await post
+        .findById(id)
+        .populate("writer", "nickName inoInfo gender profileImg bDay");
       if (result) {
         return res.status(200).json({
           message: "조회 성공",
@@ -182,6 +186,7 @@ const postController = {
       );
       res.status(200).json({
         message: "댓글 생성 성공",
+        data: updated,
       });
     } catch (error) {
       res.status(500).json({
@@ -214,6 +219,7 @@ const postController = {
         );
         res.status(200).json({
           message: "댓글 삭제 완료",
+          data: updated,
         });
       } catch (error) {
         res.status(500).json({

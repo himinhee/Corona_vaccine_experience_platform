@@ -4,10 +4,17 @@ import Responsive from "../common/Responsive";
 import DefaultAvatar from "../../assets/global/profile.png";
 import palette from "../../libs/styles/palette";
 import { BsGenderMale, BsGenderFemale } from "react-icons/bs";
+import dayjs from "dayjs";
+import codemgmt from "../../modules/codemgmt";
+import Comment from "../common/comment/Comment";
+import { useHistory } from "react-router-dom";
+import DetailPostContainer from "../../containers/post/DetailPostContainer";
+import PostsContext from "../../context/PostsContext";
+import { useContext } from "react";
 
 const PostsListBlock = styled(Responsive)`
   margin-top: 3rem;
-  margin-bottom: 4rem;
+  margin-bottom: 4rem; ;
 `;
 
 const PostsListContainer = styled.div`
@@ -20,6 +27,11 @@ const PostItemBlock = styled.div`
   padding: 1rem 1rem;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.25);
   cursor: pointer;
+  max-width: 40rem;
+  box-sizing: border-box;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
   & + & {
     margin-top: 2rem;
   }
@@ -27,6 +39,7 @@ const PostItemBlock = styled.div`
 
 const ProfileWrap = styled.div`
   display: flex;
+  width: 100%;
 `;
 
 const ProfileImageWrap = styled.div`
@@ -40,7 +53,6 @@ const ProfileImage = styled.img`
   min-width: 100%;
   left: 50%;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.05);
-
   position: relative;
   border-radius: 50%;
   transform: translateX(-50%);
@@ -62,16 +74,13 @@ const ProfileInfoWrap = styled.div`
   display: flex;
   align-items: center;
   font-size: 1.3rem;
-
   .nickName {
     font-weight: bold;
     margin-right: 0.7rem;
   }
-
   .profile {
     color: grey;
   }
-
   .dot {
     margin: 0 0.2rem;
   }
@@ -125,41 +134,44 @@ const PostTagsItem = styled.div`
   }
 `;
 
-function PostItem({ post, gender }) {
+function PostItem({ post, onClickPost }) {
+  const { title, content, tags, publishDate, updateDate, writer } = post;
+  const formatDate = dayjs(publishDate).format("YYYY-MM-DD / hh:mm");
+  const birth = dayjs(writer.bDay).format("YYYY-MM-DD");
+  const calAge = codemgmt.getAge(birth);
+  let inoInfoObject;
+  console.log(writer);
+  if (writer.inoInfo != null) {
+    inoInfoObject = writer.inoInfo[Number(writer.inoInfo.length) - 1];
+  }
   return (
-    <PostItemBlock>
+    <PostItemBlock onClick={onClickPost}>
       <ProfileWrap>
         <ProfileImageWrap>
-          <ProfileImage src={DefaultAvatar} />
+          <ProfileImage src={writer.profileImg} />
         </ProfileImageWrap>
         <PostItemInfoWrap>
           <ProfileInfoWrap>
             <span className="nickName">
-              이동훈
-              {gender === "male" ? <StyledMaleIcon /> : <StyledFemaleIcon />}
+              {writer.nickName}
+              {writer.gender === 1 ? <StyledMaleIcon /> : <StyledFemaleIcon />}
             </span>
-            <span className="profile">모더나</span>
+            <span className="profile">{inoInfoObject.type}</span>
             <span className="dot">·</span>
-            <span className="profile">1차</span>
+            <span className="profile">{inoInfoObject.degree}차 접종완료</span>
             <span className="dot">·</span>
-            <span className="profile">20대</span>
+            <span className="profile">{calAge}세</span>
           </ProfileInfoWrap>
           {/* 시간 남으면 1분전, 2시간전... 등 같이 만들어보기 */}
-          <PostItemDate>2021-10-14 / 13:33</PostItemDate>
+          <PostItemDate>{formatDate}</PostItemDate>
         </PostItemInfoWrap>
       </ProfileWrap>
       <PostContentWrap>
-        <PostCategory>후기</PostCategory>
-        <PostTitle>오늘 모더나 백신 맞고 왔습니다.</PostTitle>
-        <PostContent>
-          오늘 백신 맞고 왔습니다... 많이 아프네요.. 다들 힘내시길... <br />{" "}
-          힘내시길 바래요 힘내시길 바래요 힘내시길 바래요 힘내시길 바래요
-          힘내시길 바래요
-        </PostContent>
+        <PostCategory></PostCategory>
+        <PostTitle>{title}</PostTitle>
+        <PostContent dangerouslySetInnerHTML={{ __html: content }} />
         <PostTags>
-          <PostTagsItem>#모더나</PostTagsItem>
-          <PostTagsItem>#부작용</PostTagsItem>
-          <PostTagsItem>#아픔</PostTagsItem>
+          <PostTagsItem>#{tags}</PostTagsItem>
         </PostTags>
       </PostContentWrap>
     </PostItemBlock>
@@ -167,12 +179,24 @@ function PostItem({ post, gender }) {
 }
 
 function PostsList({ posts }) {
+  const { postsInfo, setPostsInfo } = useContext(PostsContext);
+  const history = useHistory();
+
   return (
     <PostsListBlock>
       <PostsListContainer>
         {posts &&
           posts.map((post, index) => {
-            return <PostItem post={post} />;
+            return (
+              <PostItem
+                post={post}
+                key={index}
+                onClickPost={() => {
+                  setPostsInfo({ ...postsInfo, currentPostId: post._id });
+                  history.push(`/post/${post._id}`);
+                }}
+              />
+            );
           })}
       </PostsListContainer>
     </PostsListBlock>

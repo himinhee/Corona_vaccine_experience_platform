@@ -7,8 +7,8 @@ const PostProvider = ({ children }) => {
     title: "",
     body: "",
     category: "",
-    // originalPostId: "",
-    originalPostId: "61668c7b27ab4f5e880ee635",
+    originalPostId: "",
+    // originalPostId: "61668c7b27ab4f5e880ee635",
   });
 
   const resetPost = () => {
